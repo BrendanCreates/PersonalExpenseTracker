@@ -31,14 +31,14 @@ class manager:
         return category in self.expenses # check if category is a key in expenses
     
     def get_all_categories(self):
-        return [category for category in self.expeses]
+        return [category for category in self.expenses]
 
     def print_all_categories(self):
         if self.check_empty():
             print("There are currently no categories.")
             return
-        categories = self.get_all_categories(self)
-        print(", ".join(categories)) # prints the elements of categories with the the string in between
+        categories = self.get_all_categories()
+        print("These are the current categories: " + ", ".join(categories)) # prints the elements of categories with the the string in between
     
     """ ----------------- """
 
@@ -72,7 +72,8 @@ class manager:
             expenses = self.expenses[category]
             for [amount, desc] in expenses:
                 print("     $" + str(amount) + "    " + desc)
-                print()
+
+    # def print_all_expenses_by_category
     
     """ ----------------- """
 
@@ -89,7 +90,8 @@ class manager:
             for category, expenses in self.expenses.items():
                 for amount, desc in expenses:
                     writer.writerow([category, amount, desc])
-        return True
+            return True
+        return False
         
     def read_csv(self):
         # reset the current dictionary of expenses
@@ -120,7 +122,8 @@ class manager:
                     self.expenses[category] = []
 
                 self.expenses[category].append([amount, desc]) # add the amount and description to the category in the dictionary
-        return True
+            return True
+        return False
             
 
 
