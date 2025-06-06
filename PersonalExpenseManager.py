@@ -27,9 +27,6 @@ class manager:
     def check_empty(self):
         return not bool(self.expenses)
     
-    def check_for_category(self, category):
-        return category in self.expenses # check if category is a key in expenses
-    
     def get_all_categories(self):
         return [category for category in self.expenses]
 
@@ -48,19 +45,23 @@ class manager:
         expense = [amount, desc.strip()]
         clean_category = category.strip()
 
-        if (expense in self.expenses[clean_category]): 
-            return False
-        if (clean_category in self.expenses):
-            self.expenses[clean_category].append(expense)
-            self.total += amount # add the amount to the total spending
-            return True
+        if len(desc) > 30:
+            print("\nFailed to add expense, description is over 30 characters.")
+            return
+        
+        if expense in self.expenses[clean_category]:
+            print("\nFailed to add expense.")
+            return
+
+        self.expenses[clean_category].append(expense)
+        self.total += amount
+        print("\nExpense added successfully!")
+        return
 
     def get_all_expenses_by_category(self, category):
-        result = []
         for dict_category, expenses in self.expenses.items():
             if dict_category == category:
-                result.append(expenses)
-        return result
+                return expenses
 
     def print_all_expenses(self):
         if self.check_empty():
@@ -73,7 +74,17 @@ class manager:
             for [amount, desc] in expenses:
                 print("     $" + str(amount) + "    " + desc)
 
-    # def print_all_expenses_by_category
+    def print_all_expenses_by_category(self, category):
+        expenses_of_category = self.get_all_expenses_by_category(category)
+        if not expenses_of_category:
+            print("\nThere are currently no expenses in this category.")
+            return
+        
+        print("\n" + category + ":")
+        for [amount, desc] in expenses_of_category:
+            print("     $" + str(amount) + "    " + desc)
+
+    # def delete_expense(self, amount, category, desc): # when using this function, monitor the boolean returns for success of the operation
     
     """ ----------------- """
 
@@ -96,7 +107,7 @@ class manager:
     def read_csv(self):
         # reset the current dictionary of expenses
         # reset the spending
-        self.expenses = {}
+        self.expenses = defaultdict(list)
         self.total = 0.00
 
         with open("Expenses.csv", "r", newline="") as file:

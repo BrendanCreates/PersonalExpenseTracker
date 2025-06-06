@@ -10,6 +10,9 @@ def main_menu(tracker):
         print("     2) View expenses")
         print("     3) Save expenses to file")
         print("     4) Load expenses from file")
+        print("     5) View total expendature")
+        print("     6) View expenses by category")
+        print("     7) Delete an expense")
         print("     0) Exit")
         choice = input("Enter your choice: ").strip()
 
@@ -23,14 +26,24 @@ def main_menu(tracker):
             tracker.print_all_expenses()
         elif choice == "3":
             if tracker.write_csv():
-                print("Sucessfuly saved!")
+                print("\nSucessfuly saved!")
             else:
-                print("Failed to save to file.")
+                print("\nFailed to save to file.")
         elif choice == "4":
             if tracker.read_csv():
-                print("Sucessfuly loaded!")
+                print("\nSucessfuly loaded!")
             else:
-                print("Failed to load expenses from file.")
+                print("\nFailed to load expenses from file.")
+        elif choice == "5":
+            print("\nCurrent total expendature: $" + str(tracker.total))
+        elif choice == "6":
+            tracker.print_all_categories()
+            category = input("What is the category of expense to view?: ")
+            tracker.print_all_expenses_by_category(category)
+        elif choice == "7":
+            tracker.print_all_categories()
+            category = input("What is the category of expense to view?: ")
+            tracker.print_all_expenses_by_category(category)
         elif choice == "0":
             break
         else:
