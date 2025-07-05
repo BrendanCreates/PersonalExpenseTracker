@@ -6,7 +6,7 @@ _A simple Python-based expense tracker to help manage daily spending._
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## 📌 Features
-✔️ Add an expense (amount, category, description)  
+✔️ Add/remove an expense (amount, category, description)  
 ✔️ View all expenses  
 ✔️ Calculate total spending  
 ✔️ Filter expenses by category  

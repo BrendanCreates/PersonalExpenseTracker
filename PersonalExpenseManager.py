@@ -2,7 +2,7 @@
 PersonalExpenseManager - Author: BrendanCreates
 
 Features:
-    1. Add an expense (amount, category, description)
+    1. Add/remove an expense (amount, category, description)
     2. View all expenses
     3. Calculate total spending
     4. Filter expenses by category
@@ -42,11 +42,23 @@ class manager:
 
     """ Expense Functions """
     def add_expense(self, amount, category, desc): # when using this function, monitor the boolean returns for success of the operation
-        expense = [amount, desc.strip()]
-        clean_category = category.strip()
-
-        if len(desc) > 30:
+        if len(desc) > 30 and len(category) > 30:
+            print("\nFailed to add expense, category and description is over 30 characters.")
+            return
+        elif len(category) > 30:
+            print("\nFailed to add expense, category is over 30 characters.")
+            return
+        elif len(desc) > 30:
             print("\nFailed to add expense, description is over 30 characters.")
+            return
+        
+        clean_category = category.strip()
+        
+        try:
+            amount = float(amount) 
+            expense = [amount, desc.strip()]
+        except (ValueError, TypeError):
+            print("\nEnter a valid amount for the expense.")
             return
         
         if expense in self.expenses[clean_category]:
@@ -84,14 +96,41 @@ class manager:
         for [amount, desc] in expenses_of_category:
             print("     $" + str(amount) + "    " + desc)
 
-    # def delete_expense(self, amount, category, desc): # when using this function, monitor the boolean returns for success of the operation
+    def remove_expense(self, amount, category, desc): # when using this function, monitor the boolean returns for success of the operation
+        if len(desc) > 30 and len(category) > 30:
+            print("\nFailed to remove expense, category and description is over 30 characters.")
+            return
+        elif len(category) > 30:
+            print("\nFailed to remove expense, category is over 30 characters.")
+            return
+        elif len(desc) > 30:
+            print("\nFailed to remove expense, description is over 30 characters.")
+            return
+        
+        clean_category = category.strip()
+        
+        try:
+            amount = float(amount) 
+            expense = [amount, desc.strip()]
+        except (ValueError, TypeError):
+            print("\nEnter a valid amount for the expense.")
+            return
+
+        if expense not in self.expenses[clean_category]:
+            print("\nExpense does not exist.")
+            return
+        
+        self.expenses[clean_category].remove(expense)
+        self.total -= amount
+        print("\nExpense removed successfully!")
+        return
     
     """ ----------------- """
 
 
     """ File Functions """
     def write_csv(self):
-        with open("Expenses.csv", "w", newline="") as file: # newline="" forces to handle newlines normally not Windows way with carriage return
+        with open("Expenses.csv", "w", newline="") as file: # newline="" forces to handle newlines normally not Windows way with carriage return, will create csv if doesnt exist
             writer = csv.writer(file)
 
             writer.writerow(["Total Spending", self.total, ""]) # empty string at the end to maintain width of csv entries

@@ -18,9 +18,10 @@ def main_menu(tracker):
 
         if choice == "1":
             tracker.print_all_categories()
+            print("The category and description must be 30 characters or less.\n")
             category = input("What is the category of the expense?: ")
             desc = input("What is the description of the expense?: ")
-            amount = float(input("What is the amount of the expense?: ").strip())
+            amount = input("What is the amount of the expense?: ")
             tracker.add_expense(amount, category, desc)
         elif choice == "2":
             tracker.print_all_expenses()
@@ -42,8 +43,10 @@ def main_menu(tracker):
             tracker.print_all_expenses_by_category(category)
         elif choice == "7":
             tracker.print_all_categories()
-            category = input("What is the category of expense to view?: ")
-            tracker.print_all_expenses_by_category(category)
+            category = input("What is the category of the expense?: ")
+            desc = input("What is the description of the expense?: ")
+            amount = input("What is the amount of the expense?: ")
+            tracker.remove_expense(amount, category, desc)
         elif choice == "0":
             break
         else:
